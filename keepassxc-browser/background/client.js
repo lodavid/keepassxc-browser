@@ -23,6 +23,14 @@ const kpErrors = {
     EMPTY_MESSAGE_RECEIVED: 13,
     NO_URL_PROVIDED: 14,
     NO_LOGINS_FOUND: 15,
+    NO_GROUPS_FOUND: 16,
+    CANNOT_CREATE_NEW_GROUP: 17,
+    NO_VALID_UUID_PROVIDED: 18,
+    WEBAUTHN_ATTESTATION_NOT_SUPPORTED: 19,
+    WEBAUTHN_CREDENTIAL_IS_EXCLUDED: 20,
+    WEBAUTHN_REQUEST_CANCELED: 21,
+    WEBAUTHN_INVALID_USER_VERIFICATION: 22,
+    WEBAUTHN_EMPTY_PUBLIC_KEY: 23,
 
     errorMessages: {
         0: { msg: tr('errorMessageUnknown') },
@@ -40,7 +48,15 @@ const kpErrors = {
         12: { msg: tr('errorMessageIncorrectAction') },
         13: { msg: tr('errorMessageEmptyMessage') },
         14: { msg: tr('errorMessageNoURL') },
-        15: { msg: tr('errorMessageNoLogins') }
+        15: { msg: tr('errorMessageNoLogins') },
+        16: { msg: tr('errorMessageNoGroupsFound') },
+        17: { msg: tr('errorMessageCannotCreateNewGroup') },
+        18: { msg: tr('errorMessageNoValidUuidProvided') },
+        19: { msg: tr('errorMessageWebAuthnAttestationNotSupported') },
+        20: { msg: tr('errorMessageWebAuthnCredentialIsExcluded') },
+        21: { msg: tr('errorMessageWebAuthnRequestCanceled') },
+        22: { msg: tr('errorMessageWebAuthnInvalidUserVerification') },
+        23: { msg: tr('errorMessageWebAuthnEmptyPublicKey') },
     },
 
     getError(errorCode) {

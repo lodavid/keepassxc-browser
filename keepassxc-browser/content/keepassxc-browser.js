@@ -764,6 +764,44 @@ kpxc.updateTOTPList = async function() {
     return [];
 };
 
+// Apply a script to the page for intercepting WebAuthn requests
+kpxc.enableWebAuthn = function() {
+    const webauthn = document.createElement('script');
+    webauthn.src = browser.runtime.getURL('content/webauthn.js');
+    document.documentElement.appendChild(webauthn);
+
+    document.addEventListener('kpxc-webauthn-request', async (ev) => {
+        if (ev.detail.action === 'webauthn_create') {
+            const publicKey = kpxcWebAuthnUtils.buildCredentialCreationOptions(ev.detail.publicKey);
+            logDebug(publicKey);
+
+            const ret = await sendMessage('webauthn_register', [ publicKey, window.location.origin ]);
+            if (ret) {
+                if (ret.response && ret.response.errorCode) {
+                    const errorMessage = await sendMessage('get_error_message', ret.response.errorCode);
+                    kpxcUI.createNotification('error', errorMessage);
+                }
+
+                const responsePublicKey = kpxcWebAuthnUtils.parsePublicKeyCredential(ret.response);
+                kpxcWebAuthnUtils.sendWebAuthnResponse(responsePublicKey);
+            }
+        } else if (ev.detail.action === 'webauthn_get') {
+            const publicKey = kpxcWebAuthnUtils.buildCredentialRequestOptions(ev.detail.publicKey);
+            logDebug(publicKey);
+
+            const ret = await sendMessage('webauthn_get', [ publicKey, window.location.origin ]);
+            if (ret) {
+                if (ret.response && ret.response.errorCode) {
+                    const errorMessage = await sendMessage('get_error_message', ret.response.errorCode);
+                    kpxcUI.createNotification('error', errorMessage);
+                }
+
+                const responsePublicKey = kpxcWebAuthnUtils.parseGetPublicKeyCredential(ret.response);
+                kpxcWebAuthnUtils.sendWebAuthnResponse(responsePublicKey);
+            }
+        }
+    });
+};
 
 /**
  * Content script initialization.
@@ -781,6 +819,10 @@ const initContentScript = async function() {
         if (await kpxc.siteIgnored()) {
             logDebug('This site is ignored in Site Preferences.');
             return;
+        }
+
+        if (kpxc.settings.webAuthn) {
+            kpxc.enableWebAuthn();
         }
 
         await kpxc.updateDatabaseState();

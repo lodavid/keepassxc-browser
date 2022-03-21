@@ -68,7 +68,8 @@
                 "content/pwgen.js",
                 "content/totp-autocomplete.js",
                 "content/totp-field.js",
-                "content/username-field.js"
+                "content/username-field.js",
+                "content/webauthn-utils.js"
             ],
             "run_at": "document_idle",
             "all_frames": true
@@ -137,7 +138,8 @@
         "css/notification.css",
         "css/pwgen.css",
         "css/username.css",
-        "css/totp.css"
+        "css/totp.css",
+        "content/webauthn.js"
     ],
     "permissions": [
         "activeTab",

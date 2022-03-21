@@ -107,6 +107,38 @@
         "message": "Filled password is longer than field's allowed max length.",
         "description": "Error notification text shown when filled password is longer than defined maxLength of the input field."
     },
+    "errorMessageNoGroupsFound": {
+        "message": "No groups found.",
+        "description": "No groups found."
+    },
+    "errorMessageCannotCreateNewGroup": {
+        "message": "Cannot create new group.",
+        "description": "Cannot create new group."
+    },
+    "errorMessageNoValidUuidProvided": {
+        "message": "No valid UUID provided.",
+        "description": "No valid UUID provided."
+    },
+    "errorMessageWebAuthnAttestationNotSupported": {
+        "message": "Attestation not supported.",
+        "description": "Attestation not supported."
+    },
+    "errorMessageWebAuthnCredentialIsExcluded": {
+        "message": "Credential is excluded.",
+        "description": "Credential is excluded."
+    },
+    "errorMessageWebAuthnRequestCanceled": {
+        "message": "WebAuthn request canceled.",
+        "description": "WebAuthn request canceled."
+    },
+    "errorMessageWebAuthnInvalidUserVerification": {
+        "message": "Invalid user verification.",
+        "description": "Invalid user verification."
+    },
+    "errorMessageWebAuthnEmptyPublicKey": {
+        "message": "Empty public key.",
+        "description": "Empty public key."
+    },
     "errorNotConnected": {
         "message": "Not connected to KeePassXC.",
         "description": "Error notification shown when not connected to KeePassXC"
@@ -1182,6 +1214,26 @@
     "optionsExtensionTitle": {
         "message": "Extension",
         "description": "Extension title in settings page"
+    },
+    "optionsWebAuthnTitle": {
+        "message": "WebAuthn",
+        "description": "WebAuthn settings title in settings page."
+    },
+    "optionsWebAuthnEnable": {
+        "message": "Enable WebAuthn",
+        "description": "Enabled WebAuthn option text."
+    },
+    "optionsWebAuthnEnableHelpText": {
+        "message": "Enable support for Web Authentication.",
+        "description": "WebAuthn option help text."
+    },
+    "optionsWebAuthnEnableFallback": {
+        "message": "Enable WebAuthn fallback",
+        "description": "Enabled WebAuthn fallback option text."
+    },
+    "optionsWebAuthnEnableFallbackHelpText": {
+        "message": "When enabled, a failed or canceled request to KeePassXC will trigger the browser's own internal WebAuthn request. If disabled, connection to KeePassXC is required and canceled request will fail. Default: enabled.",
+        "description": "WebAuthn fallback option help text."
     },
     "openNewTab": {
         "message": "Opens a new tab",

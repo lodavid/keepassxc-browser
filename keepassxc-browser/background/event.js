@@ -233,6 +233,7 @@ kpxcEvent.messageHandlers = {
     'get_connected_database': kpxcEvent.onGetConnectedDatabase,
     'get_database_hash': keepass.getDatabaseHash,
     'get_database_groups': keepass.getDatabaseGroups,
+    'get_error_message': keepass.getErrorMessage,
     'get_keepassxc_versions': kpxcEvent.onGetKeePassXCVersions,
     'get_status': kpxcEvent.onGetStatus,
     'get_tab_information': kpxcEvent.onGetTabInformation,
@@ -267,5 +268,7 @@ kpxcEvent.messageHandlers = {
     'username_field_detected': kpxcEvent.onUsernameFieldDetected,
     'save_settings': kpxcEvent.onSaveSettings,
     'update_available_keepassxc': kpxcEvent.onUpdateAvailableKeePassXC,
-    'update_context_menu': page.updateContextMenu
+    'update_context_menu': page.updateContextMenu,
+    'webauthn_get': keepass.webauthnGet,
+    'webauthn_register': keepass.webauthnRegister
 };

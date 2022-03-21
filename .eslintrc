@@ -137,6 +137,7 @@
         "kpxcUsernameIcons": true,
         "logDebug": true,
         "logError": true,
+        "kpxcWebAuthnUtils": true,
         "ManualFill": true,
         "MAX_AUTOCOMPLETE_NAME_LEN": true,
         "MAX_OPACITY": true,

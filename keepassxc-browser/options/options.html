@@ -316,6 +316,33 @@
                 </div>
               </div>
 
+              <!-- WebAuthn -->
+              <div class="card my-4 shadow" id="webAuthnOptionsCard">
+                <div class="card-header h6 rounded-0">
+                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                  <span data-i18n="optionsWebAuthnTitle"></span>
+                </div>
+                <div class="card-body">
+                  <!-- Enable WebAuthn -->
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="webAuthn" id="webAuthn" value="true" />
+                      <label class="form-check-label" for="webAuthn" data-i18n="optionsWebAuthnEnable"></label>
+                      <div class="form-text help-text" data-i18n="optionsWebAuthnEnableHelpText"></div>
+                    </div>
+                  </div>
+
+                  <!-- Enable WebAuthn fallback -->
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="webAuthnFallback" id="webAuthnFallback" value="true" />
+                      <label class="form-check-label" for="webAuthnFallback" data-i18n="optionsWebAuthnEnableFallback"></label>
+                      <div class="form-text help-text" data-i18n="optionsWebAuthnEnableFallbackHelpText"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Updates -->
               <div class="card my-4 shadow">
                 <div class="card-header h6 rounded-0">

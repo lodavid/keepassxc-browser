@@ -28,7 +28,9 @@ const defaultSettings = {
     showOTPIcon: true,
     useObserver: true,
     usePredefinedSites: true,
-    usePasswordGeneratorIcons: false
+    usePasswordGeneratorIcons: false,
+    webAuthn: false,
+    webAuthnFallback: false,
 };
 
 const AUTO_SUBMIT_TIMEOUT = 5000;
@@ -168,6 +170,14 @@ page.initSettings = async function() {
 
         if (!('usePredefinedSites' in page.settings)) {
             page.settings.usePredefinedSites = defaultSettings.usePredefinedSites;
+        }
+
+        if (!('webAuthn' in page.settings)) {
+            page.settings.webAuthn = defaultSettings.webAuthn;
+        }
+
+        if (!('webAuthnFallback' in page.settings)) {
+            page.settings.webAuthnFallback = defaultSettings.webAuthnFallback;
         }
 
         await browser.storage.local.set({ 'settings': page.settings });

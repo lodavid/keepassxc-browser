@@ -33,7 +33,9 @@ const kpActions = {
     GET_DATABASE_GROUPS: 'get-database-groups',
     CREATE_NEW_GROUP: 'create-new-group',
     GET_TOTP: 'get-totp',
-    REQUEST_AUTOTYPE: 'request-autotype'
+    REQUEST_AUTOTYPE: 'request-autotype',
+    WEBAUTHN_REGISTER: 'webauthn-register',
+    WEBAUTHN_GET: 'webauthn-get'
 };
 
 browser.storage.local.get({ 'latestKeePassXC': { 'version': '', 'lastChecked': null }, 'keyRing': {} }).then((item) => {
@@ -121,23 +123,15 @@ keepass.retrieveCredentials = async function(tab, args = []) {
         }
 
         let entries = [];
-        const keys = [];
         const kpAction = kpActions.GET_LOGINS;
         const nonce = keepassClient.getNonce();
         const [ dbid ] = keepass.getCryptoKey();
-
-        for (const keyHash in keepass.keyRing) {
-            keys.push({
-                id: keepass.keyRing[keyHash].id,
-                key: keepass.keyRing[keyHash].key
-            });
-        }
 
         const messageData = {
             action: kpAction,
             id: dbid,
             url: url,
-            keys: keys
+            keys: keepass.getAllKeys()
         };
 
         if (submiturl) {
@@ -463,7 +457,6 @@ keepass.lockDatabase = async function(tab) {
         action: kpAction
     };
 
-
     try {
         const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
         if (response) {
@@ -615,10 +608,79 @@ keepass.requestAutotype = async function(tab, args = []) {
 
     try {
         const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
+        // TODO: Parse the response here?
         return response;
     } catch (err) {
         logError(`requestAutotype failed: ${err}`);
         return false;
+    }
+};
+
+keepass.webauthnRegister = async function(tab, args = []) {
+    try {
+        const taResponse = await keepass.testAssociation(tab, [ false ]);
+        if (!taResponse || !keepass.isConnected || args.length < 2) {
+            browserAction.showDefault(tab);
+            return [];
+        }
+
+        const kpAction = kpActions.WEBAUTHN_REGISTER;
+        const nonce = keepassClient.getNonce();
+
+        // Parse publicKey
+        const publicKey = args[0];
+        const origin = args[1];
+
+        const messageData = {
+            action: kpAction,
+            publicKey: JSON.parse(JSON.stringify(publicKey)),
+            origin: origin,
+            keys: keepass.getAllKeys()
+        };
+
+        const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
+        if (response) {
+            return response;
+        }
+
+        browserAction.showDefault(tab);
+        return [];
+    } catch (err) {
+        logError(`webauthnRegister failed: ${err}`);
+        return [];
+    }
+};
+
+keepass.webauthnGet = async function(tab, args = []) {
+    try {
+        const taResponse = await keepass.testAssociation(tab, [ false ]);
+        if (!taResponse || !keepass.isConnected || args.length < 2) {
+            browserAction.showDefault(tab);
+            return [];
+        }
+
+        const kpAction = kpActions.WEBAUTHN_GET;
+        const nonce = keepassClient.getNonce();
+        const publicKey = args[0];
+        const origin = args[1];
+
+        const messageData = {
+            action: kpAction,
+            publicKey: JSON.parse(JSON.stringify(publicKey)),
+            origin: origin,
+            keys: keepass.getAllKeys()
+        };
+
+        const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
+        if (response) {
+            return response;
+        }
+
+        browserAction.showDefault(tab);
+        return [];
+    } catch (err) {
+        logError(`webauthnGet failed: ${err}`);
+        return [];
     }
 };
 
@@ -720,6 +782,19 @@ keepass.setCryptoKey = function(id, key) {
     keepass.saveKey(keepass.databaseHash, id, key);
 };
 
+keepass.getAllKeys = function() {
+    const keys = [];
+
+    for (const keyHash in keepass.keyRing) {
+        keys.push({
+            id: keepass.keyRing[keyHash].id,
+            key: keepass.keyRing[keyHash].key
+        });
+    }
+
+    return keys;
+};
+
 //--------------------------------------------------------------------------
 // Connection
 //--------------------------------------------------------------------------
@@ -771,6 +846,10 @@ keepass.reconnect = async function(tab, connectionTimeout) {
 //--------------------------------------------------------------------------
 // Utils
 //--------------------------------------------------------------------------
+
+keepass.getErrorMessage = async function(tab, errorCode) {
+    return kpErrors.getError(errorCode);
+};
 
 keepass.generateNewKeyPair = function() {
     keepass.keyPair = nacl.box.keyPair();
