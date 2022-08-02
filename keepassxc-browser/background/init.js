@@ -6,7 +6,7 @@
         await page.initSettings();
         await page.initSitePreferences();
         await page.initOpenedTabs();
-        await httpAuth.init();
+        //await httpAuth.init();
         await keepass.reconnect(null, 5000); // 5 second timeout for the first connect
         await keepass.enableAutomaticReconnect();
         await keepass.updateDatabase();
@@ -77,7 +77,7 @@ browser.tabs.onActivated.addListener(async function(activeInfo) {
  * @param {object} changeInfo
  * @param {object} tab
  */
-browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     // If the tab URL has changed (e.g. logged in) clear credentials
     if (changeInfo.url) {
         page.clearLogins(tabId);
@@ -135,14 +135,7 @@ for (const item of contextMenuItems) {
         title: item.title,
         contexts: menuContexts,
         visible: item.visible,
-        id: item.id,
-        onclick: (info, tab) => {
-            browser.tabs.sendMessage(tab.id, {
-                action: item.action
-            }).catch((err) => {
-                logError(err);
-            });
-        }
+        id: item.id || item.action
     });
 }
 
@@ -158,4 +151,12 @@ browser.commands.onCommand.addListener(async (command) => {
             browser.tabs.sendMessage(tabs[0].id, { action: command });
         }
     }
+});
+
+browser.contextMenus.onClicked.addListener(async (item, tab) => {
+    browser.tabs.sendMessage(tab.id, {
+        action: item.menuItemId
+    }).catch((err) => {
+        logError(err);
+    });
 });

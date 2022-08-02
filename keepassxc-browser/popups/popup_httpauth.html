@@ -9,15 +9,16 @@
     <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
     <script src="../common/browser-polyfill.min.js"></script>
     <script src="../common/global.js"></script>
+    <script src="../common/global_ui.js"></script>
     <script src="../bootstrap/bootstrap.min.js"></script>
     <script src="popup_functions.js"></script>
     <script defer src="popup_httpauth.js"></script>
     <script defer src="../common/translate.js"></script>
   </head>
   <body>
-    <script>
+    <!--<script>
       setDefaultPopupSize();
-    </script>
+    </script>-->
     <div class="container">
       <div id="settings" class="settings">
         <div class="function-buttons-area">
@@ -43,12 +44,12 @@
         </p>
       </div>
 
-      <div id="database-not-opened" style="display: none">
+      <div id="database-not-opened">
         <p data-i18n="popupErrorEncountered"/>
-        <p style="margin-left: 1em">
+        <p id="left-margin">
           <code id="database-error-message"></code>
         </p>
-        <div style="text-align: right">
+        <div id="right-align">
           <button id="reopen-database-button" class="btn btn-sm btn-primary"><i class="fa fa-lock" aria-hidden="true"></i> <span data-i18n="popupReopenButton"></span></button>
         </div>
       </div>

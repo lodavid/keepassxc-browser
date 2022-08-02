@@ -371,6 +371,14 @@ page.setAutoSubmitPerformed = async function(tab) {
     }
 };
 
+page.getLoginList = async function(tab, tabId) {
+    if (page.tabs[tabId]) {
+        return page.tabs[tabId].loginList;
+    }
+
+    return [];
+};
+
 // Update context menu for attribute filling
 page.updateContextMenu = async function(tab, credentials) {
     // Remove any old attribute items
@@ -407,6 +415,7 @@ page.updateContextMenu = async function(tab, credentials) {
 const createContextMenuItem = function({action, args, ...options}) {
     return browser.contextMenus.create({
         contexts: menuContexts,
+        id: action,
         onclick: (info, tab) => {
             browser.tabs.sendMessage(tab.id, {
                 action: action,

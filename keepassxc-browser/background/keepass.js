@@ -675,6 +675,7 @@ keepass.saveKey = function(hash, id, key) {
         keepass.keyRing[hash].created = new Date().valueOf();
         keepass.keyRing[hash].lastUsed = new Date().valueOf();
     }
+
     browser.storage.local.set({ 'keyRing': keepass.keyRing });
 };
 

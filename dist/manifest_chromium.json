@@ -158,6 +158,6 @@
            "id": "keepassxc-browser@keepassxc.org",
            "strict_min_version": "101.0"
        }
-   },
-   "default_locale": "en"
+    },
+    "default_locale": "en"
 }

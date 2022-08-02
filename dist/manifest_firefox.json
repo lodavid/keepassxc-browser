@@ -1,26 +1,25 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "KeePassXC-Browser",
     "version": "1.8.2.2",
-    "version_name": "1.8.2.2",
     "description": "__MSG_extensionDescription__",
     "author": "KeePassXC Team",
     "icons": {
-        "16": "icons/keepassxc_16x16.png",
-        "48": "icons/keepassxc_48x48.png",
-        "64": "icons/keepassxc_64x64.png",
-        "96": "icons/keepassxc_96x96.png",
-        "128": "icons/keepassxc_128x128.png"
+        "16": "icons/keepassxc.svg",
+        "48": "icons/keepassxc.svg",
+        "64": "icons/keepassxc.svg",
+        "96": "icons/keepassxc.svg",
+        "128": "icons/keepassxc.svg"
     },
-    "action": {
+    "browser_action": {
         "default_icon": {
-            "16": "icons/keepassxc_16x16.png",
-            "18": "icons/keepassxc_18x18.png",
-            "19": "icons/keepassxc_19x19.png",
-            "32": "icons/keepassxc_32x32.png",
-            "36": "icons/keepassxc_36x36.png",
-            "38": "icons/keepassxc_38x38.png",
-            "64": "icons/keepassxc_64x64.png"
+            "16": "icons/keepassxc.svg",
+            "18": "icons/keepassxc.svg",
+            "19": "icons/keepassxc.svg",
+            "32": "icons/keepassxc.svg",
+            "36": "icons/keepassxc.svg",
+            "38": "icons/keepassxc.svg",
+            "64": "icons/keepassxc.svg"
         },
         "default_title": "KeePassXC-Browser",
         "default_popup": "popups/popup.html"
@@ -30,7 +29,20 @@
         "open_in_tab": true
     },
     "background": {
-        "service_worker": "background/background_service.js"
+        "scripts": [
+            "common/browser-polyfill.min.js",
+            "common/global.js",
+            "common/sites.js",
+            "background/nacl.min.js",
+            "background/nacl-util.min.js",
+            "background/client.js",
+            "background/keepass.js",
+            "background/httpauth.js",
+            "background/browserAction.js",
+            "background/page.js",
+            "background/event.js",
+            "background/init.js"
+        ]
     },
     "content_scripts": [
         {
@@ -40,7 +52,6 @@
             "js": [
                 "common/browser-polyfill.min.js",
                 "common/global.js",
-                "common/global_ui.js",
                 "common/sites.js",
                 "content/ui.js",
                 "content/banner.js",
@@ -110,29 +121,23 @@
             "description": "__MSG_popupReloadButton__"
         }
     },
-    "web_accessible_resources": [{
-        "resources": [
-            "icons/disconnected.svg",
-            "icons/help.svg",
-            "icons/keepassxc.svg",
-            "icons/key.svg",
-            "icons/locked.svg",
-            "icons/otp.svg",
-            "css/autocomplete.css",
-            "css/banner.css",
-            "css/button.css",
-            "css/colors.css",
-            "css/define.css",
-            "css/notification.css",
-            "css/pwgen.css",
-            "css/username.css",
-            "css/totp.css"
-        ],
-        "matches": [
-            "https://*/*",
-            "http://*/*"
-        ]
-    }],
+    "web_accessible_resources": [
+        "icons/disconnected.svg",
+        "icons/help.svg",
+        "icons/keepassxc.svg",
+        "icons/key.svg",
+        "icons/locked.svg",
+        "icons/otp.svg",
+        "css/autocomplete.css",
+        "css/banner.css",
+        "css/button.css",
+        "css/colors.css",
+        "css/define.css",
+        "css/notification.css",
+        "css/pwgen.css",
+        "css/username.css",
+        "css/totp.css"
+    ],
     "permissions": [
         "activeTab",
         "contextMenus",
@@ -143,21 +148,17 @@
         "tabs",
         "webNavigation",
         "webRequest",
-        "webRequestBlocking"
-    ],
-    "content_security_policy": {
-        "extension_pages": "default-src 'self'"
-    },
-    "host_permissions": [
+        "webRequestBlocking",
         "https://*/*",
         "http://*/*",
         "https://api.github.com/"
     ],
-    "browser_specific_settings": {
-       "gecko": {
-           "id": "keepassxc-browser@keepassxc.org",
-           "strict_min_version": "101.0"
-       }
-   },
-   "default_locale": "en"
+    "content_security_policy": "script-src 'self' 'sha256-4nJ8uLezzRE3SiBFdkVN/uNwV9YTOGCqRXg6AvB5rCY='; object-src 'none'",
+    "applications": {
+        "gecko": {
+            "id": "keepassxc-browser@keepassxc.org",
+            "strict_min_version": "67.0"
+        }
+    },
+    "default_locale": "en"
 }

@@ -9,12 +9,12 @@ browserAction.show = function(tab, popupData) {
 
     page.popupData = popupData;
 
-    browser.browserAction.setIcon({
+    browser.action.setIcon({
         path: browserAction.generateIconName(popupData.iconType)
     });
 
     if (popupData.popup) {
-        browser.browserAction.setPopup({
+        browser.action.setPopup({
             tabId: tab.id,
             popup: `popups/${popupData.popup}.html`
         });
@@ -55,7 +55,7 @@ browserAction.updateIcon = async function(tab, iconType) {
         tab = tabs[0];
     }
 
-    browser.browserAction.setIcon({
+    browser.action.setIcon({
         path: browserAction.generateIconName(iconType)
     });
 };
