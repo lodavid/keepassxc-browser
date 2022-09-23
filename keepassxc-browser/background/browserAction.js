@@ -9,12 +9,12 @@ browserAction.show = function(tab, popupData) {
 
     page.popupData = popupData;
 
-    browser.action.setIcon({
+    browserAction.setIcon({
         path: browserAction.generateIconName(popupData.iconType)
     });
 
     if (popupData.popup) {
-        browser.action.setPopup({
+        browserAction.setPopup({
             tabId: tab.id,
             popup: `popups/${popupData.popup}.html`
         });
@@ -55,7 +55,7 @@ browserAction.updateIcon = async function(tab, iconType) {
         tab = tabs[0];
     }
 
-    browser.action.setIcon({
+    browserAction.setIcon({
         path: browserAction.generateIconName(iconType)
     });
 };
@@ -81,4 +81,22 @@ browserAction.ignoreSite = async function(url) {
         action: 'ignore_site',
         args: [ url ]
     });
+};
+
+// Wrapper for V2 (Firefox)
+browserAction.setIcon = function(icon) {
+    if (isFirefox()) {
+        browser.browserAction.setIcon(icon);
+    } else {
+        browser.action.setIcon(icon);
+    }
+};
+
+// Wrapper for V2 (Firefox)
+browserAction.setPopup = function(popup) {
+    if (isFirefox()) {
+        browser.browserAction.setPopup(popup);
+    } else {
+        browser.action.setPopup(popup);
+    }
 };
