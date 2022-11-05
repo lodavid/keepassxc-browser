@@ -4,9 +4,6 @@ const $ = function(elem) {
     return document.querySelector(elem);
 };
 
-const DEFAULT_POPUP_SIZE = '460px';
-const PINNED_POPUP_SIZE = '380px';
-
 function updateAvailableResponse(available) {
     if (available) {
         $('#update-available').show();
@@ -45,22 +42,6 @@ async function initColorTheme() {
         document.body.removeAttribute('data-color-theme');
     } else {
         document.body.setAttribute('data-color-theme', colorTheme);
-    }
-}
-
-// Sets default popup size for Chromium based browsers to prevent flash on popup open
-function setDefaultPopupSize() {
-    if (!isFirefox()) {
-        document.body.style.width = DEFAULT_POPUP_SIZE;
-    }
-}
-
-// Resizes the popup to the default size if the width is too small
-function resizePopup() {
-    if (document.body.offsetWidth > 0 && document.body.offsetWidth < 100) {
-        document.body.style.width = isFirefox() ? PINNED_POPUP_SIZE : DEFAULT_POPUP_SIZE;
-    } else {
-        document.body.style.width = DEFAULT_POPUP_SIZE;
     }
 }
 

@@ -7,7 +7,6 @@ const getLoginData = async () => {
 };
 
 (async () => {
-    resizePopup();
     await initColorTheme();
 
     $('#lock-database-button').show();
