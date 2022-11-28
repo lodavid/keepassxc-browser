@@ -131,7 +131,7 @@ keepass.retrieveCredentials = async function(tab, args = []) {
             action: kpAction,
             id: dbid,
             url: url,
-            keys: keepass.getAllKeys()
+            keys: keepass.getCryptoKeys()
         };
 
         if (submiturl) {
@@ -608,7 +608,6 @@ keepass.requestAutotype = async function(tab, args = []) {
 
     try {
         const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
-        // TODO: Parse the response here?
         return response;
     } catch (err) {
         logError(`requestAutotype failed: ${err}`);
@@ -635,7 +634,7 @@ keepass.webauthnRegister = async function(tab, args = []) {
             action: kpAction,
             publicKey: JSON.parse(JSON.stringify(publicKey)),
             origin: origin,
-            keys: keepass.getAllKeys()
+            keys: keepass.getCryptoKeys()
         };
 
         const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
@@ -668,7 +667,7 @@ keepass.webauthnGet = async function(tab, args = []) {
             action: kpAction,
             publicKey: JSON.parse(JSON.stringify(publicKey)),
             origin: origin,
-            keys: keepass.getAllKeys()
+            keys: keepass.getCryptoKeys()
         };
 
         const response = await keepassClient.sendMessage(kpAction, tab, messageData, nonce);
@@ -782,7 +781,7 @@ keepass.setCryptoKey = function(id, key) {
     keepass.saveKey(keepass.databaseHash, id, key);
 };
 
-keepass.getAllKeys = function() {
+keepass.getCryptoKeys = function() {
     const keys = [];
 
     for (const keyHash in keepass.keyRing) {

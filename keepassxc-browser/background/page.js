@@ -30,7 +30,7 @@ const defaultSettings = {
     usePredefinedSites: true,
     usePasswordGeneratorIcons: false,
     webAuthn: false,
-    webAuthnFallback: false,
+    webAuthnFallback: true,
 };
 
 const AUTO_SUBMIT_TIMEOUT = 5000;
